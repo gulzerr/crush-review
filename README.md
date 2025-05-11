@@ -21,23 +21,26 @@ As a backend engineer, debugging and fixing issues quickly is essential — but 
 
 ✅ TypeScript compiler diagnostics
 ✅ ESLint error scanning
-✅ Unit test failure detection
+✅ Unit test failure detection (coming..)
 ✅ Interactive explanations using Amazon Q's `q chat`
-✅ Modular, pluggable architecture
+✅ Modular, pluggable architecture (coming ..)
 ✅ Built for CLI workflows (no IDE required!)
 
 ---
 
 ## 📸 Demo (How It Works)
 
+(all the code in /src directory)
+
 ```bash
-npx ts-node src/index.ts ./my-project
+npx ts-node src/index.ts ./src
 ```
 
 1. ✅ Scans your project with `tsc`, ESLint, and tests.
 2. 🔴 Detects and shows the errors.
 3. 🤖 Offers to explain errors using Amazon Q (`q chat`).
 4. 🧛 Prompts you to interactively debug with guidance.
+5. 👨‍💻 Automatically update the codebase and resolve the errors
 
 ---
 
@@ -48,7 +51,7 @@ npx ts-node src/index.ts ./my-project
 ├── index.ts        # Entry point
 ├── errors.ts       # Lint/build/test scanning
 ├── q-helper.ts     # Amazon Q CLI chat integration
-└── utils.ts        # Prompting and CLI I/O
+└── test.ts         # Test file with linter errors
 ```
 
 ---
@@ -56,14 +59,15 @@ npx ts-node src/index.ts ./my-project
 ## 📂 Folder Structure
 
 ```bash
-q-debug-assist/
+crush-review/
 ├── src/
 │   ├── index.ts
 │   ├── errors.ts
 │   ├── q-helper.ts
-│   └── utils.ts
+│   └── test.ts
 ├── package.json
 ├── tsconfig.json
+├── eslint.config.mjs
 └── README.md
 ```
 
@@ -74,9 +78,9 @@ q-debug-assist/
 ### 1. Clone and Install
 
 ```bash
-git clone https://github.com/your-username/q-debug-assist.git
-cd q-debug-assist
-npm install
+git clone git@github.com:gulzerr/crush-review.git
+cd crush-review
+yarn install
 ```
 
 ### 2. Install Amazon Q CLI
@@ -90,7 +94,7 @@ q login
 ### 3. Run the Assistant
 
 ```bash
-npx ts-node src/index.ts ./my-project
+npx ts-node src/index.ts ./src
 ```
 
 ---
@@ -98,13 +102,23 @@ npx ts-node src/index.ts ./my-project
 ## 🥪 Example Output
 
 ```
-🔍 Scanning project at: ./my-project
+🔍 Scanning project at: /Users/shopup/Documents/personal-projects/crush-review/src
 
 🔴 Error Found:
-Type 'undefined' is not assignable to type 'string'.
+
+❌ ESLint Error:
+/Users/shopup/Documents/personal-projects/crush-review/src/test.ts: line 2, col 29, Error - Unexpected any. Specify a different type. (@typescript-eslint/no-explicit-any)
+/Users/shopup/Documents/personal-projects/crush-review/src/test.ts: line 4, col 3, Error - Unexpected var, use let or const instead. (no-var)
+/Users/shopup/Documents/personal-projects/crush-review/src/test.ts: line 17, col 7, Error - 'unusedVar' is never reassigned. Use 'const' instead. (prefer-const)
+/Users/shopup/Documents/personal-projects/crush-review/src/test.ts: line 17, col 7, Error - 'unusedVar' is assigned a value but never used. (@typescript-eslint/no-unused-vars)
+
+4 problems
+
 
 🤖 Explaining with Amazon Q...
-(launches `q chat` in your terminal)
+I see you're encountering several ESLint errors in your test.ts file. Let me help you understand and fix these issues.
+
+Let's first look at the file content to better understand the context:
 ```
 
 ---
@@ -116,9 +130,7 @@ Type 'undefined' is not assignable to type 'string'.
 Collects errors using:
 
 ```ts
-npx tsc --noEmit
 npx eslint . --format compact
-npm test
 ```
 
 ### 2. `q-helper.ts`
@@ -126,12 +138,12 @@ npm test
 Launches Amazon Q chat for explanations:
 
 ```ts
-execSync("q chat", { stdio: "inherit" });
+execSync(`q chat --trust-all-tools --no-interactive "${errorMessage}`);
 ```
 
-### 3. `utils.ts`
+### 3. `test.ts`
 
-Prompts the user to confirm if they'd like to get AI help.
+A sample ts file with linter errors
 
 ---
 
@@ -164,7 +176,7 @@ Prompts the user to confirm if they'd like to get AI help.
 
 ## 🛠 Future Improvements
 
-- Auto-suggest fixes using OpenAI or CodeWhisperer
+- Auto-suggest fixes usings CodeWhisperer
 - Add support for Python and Go
 - Highlight errors in source files using ASTs
 - Integrate CI/CD feedback loop
@@ -173,8 +185,9 @@ Prompts the user to confirm if they'd like to get AI help.
 
 ## 👤 Author
 
-**You** — Backend Engineer (Node.js, TypeScript, Python, Go)
-Twitter/GitHub/LinkedIn: _Add links here_
+**Bulbul Gulzer Deb** — Master Student at TU Ilmenau, Germany and Backend Engineer (Node.js, TypeScript, Python, Go)
+
+[LinkedIn](https://www.linkedin.com/in/deb/) [Github](https://github.com/gulzerr)
 
 ---
 
